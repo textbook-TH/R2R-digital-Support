@@ -128,10 +128,11 @@
                 <!-- Brand Logo & Title -->
                 <div class="flex items-center gap-3.5">
                     <div id="logoContainer" class="relative">
+                        <!-- Rounded Logo Image -->
                         <img src="https://lh3.googleusercontent.com/d/1TUDaM3Xxo2FKijGV0cwfW-A0xEUfSuAp" 
                              alt="R2R Digital Support Logo" 
-                             class="w-12 h-12 object-contain rounded-xl shadow-lg shadow-cyan-500/20"
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white font-black text-xl tracking-wider\'>R2R</div>';">
+                             class="w-12 h-12 object-cover rounded-full p-0.5 border-2 border-cyan-500/40 shadow-lg shadow-cyan-500/30"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-500 via-indigo-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 text-white font-black text-lg tracking-wider border-2 border-cyan-400/40\'>R2R</div>';">
                     </div>
                     <div>
                         <div class="flex items-center gap-2.5">
@@ -207,7 +208,7 @@
                 </button>
             </div>
 
-            <!-- Video Cards Grid: 1 Col on Mobile (6 items), 2 Cols on iPad (4 rows = 8 items), 3 Cols on PC (3 rows = 9 items) -->
+            <!-- Video Cards Grid -->
             <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Dynamic cards populated via JavaScript -->
             </div>
@@ -235,10 +236,13 @@
 
     <footer class="bg-gray-950/90 border-t border-gray-800/80 py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-xs space-y-3">
-            <div class="flex flex-wrap items-center justify-center gap-2 font-medium text-gray-300">
-                <span class="text-cyan-400 font-semibold">R2R Digital Support</span>
+            <div class="flex flex-wrap items-center justify-center gap-2 text-gray-300">
+                <span class="text-cyan-400 font-bold">R2R Digital Support</span>
                 <span>•</span>
-                <span>พัฒนาโดย <span class="text-white font-light">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span></span>
+                <!-- "พัฒนาโดย" and Developer Name in Bold -->
+                <span class="font-bold text-gray-200">
+                    พัฒนาโดย <span class="text-white font-bold">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span>
+                </span>
             </div>
             <p class="text-gray-500 max-w-md mx-auto">
                 คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย
@@ -351,13 +355,10 @@
         function getItemsPerPage() {
             const width = window.innerWidth;
             if (width < 768) {
-                // Mobile: Show exactly 6 clips per page for all categories
                 return 6;
             } else if (width < 1024) {
-                // iPad / Tablet (md:grid-cols-2): Show 4 rows = 4 rows * 2 columns = 8 clips per page
                 return 8;
             } else {
-                // PC / Desktop (lg:grid-cols-3): Show 3 rows = 3 rows * 3 columns = 9 clips per page
                 return 9;
             }
         }
@@ -387,7 +388,6 @@
 
         let allVideos = [...fallbackVideos];
 
-        // DOM Elements
         const videoGrid = document.getElementById('videoGrid');
         const emptyState = document.getElementById('emptyState');
         const searchInput = document.getElementById('searchInput');
@@ -519,13 +519,11 @@
                 const numB = parseInt((b.id || '').replace(/\D/g, ''), 10);
                 
                 if (isFilterSelected) {
-                    // Ascending (R2R-001 -> R2R-019)
                     if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
                         return numA - numB;
                     }
                     return (a.id || '').localeCompare(b.id || '', undefined, { numeric: true, sensitivity: 'base' });
                 } else {
-                    // Descending when showing all
                     if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
                         return numB - numA;
                     }
@@ -635,7 +633,7 @@
                     <div class="px-4 pb-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs text-gray-400">
                         <div class="flex items-center gap-1.5 text-[11px]">
                             <i class="fa-solid fa-user-circle text-gray-500"></i>
-                            <span class="truncate max-w-[120px] text-gray-400">ชาคริต เทียนทอง</span>
+                            <span class="truncate max-w-[120px] text-gray-400 font-medium">ชาคริต เทียนทอง</span>
                         </div>
                         <button onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(displayCreator)}', '${video.youtubeUrl}', '${video.playlistUrl}')" 
                             class="px-3.5 py-1.5 rounded-xl bg-gray-900 hover:bg-cyan-600/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/30 transition-all text-xs font-semibold flex items-center gap-1.5">
@@ -774,7 +772,6 @@
             return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
-        // Window resize debounced handler to dynamically re-calculate pagination count on device switch
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
