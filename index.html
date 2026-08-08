@@ -127,12 +127,24 @@
             <div class="flex items-center justify-between h-20">
                 <!-- Brand Logo & Title -->
                 <div class="flex items-center gap-3.5">
-                    <div id="logoContainer" class="relative">
-                        <!-- Rounded Logo Image -->
-                        <img src="https://lh3.googleusercontent.com/d/1TUDaM3Xxo2FKijGV0cwfW-A0xEUfSuAp" 
-                             alt="R2R Digital Support Logo" 
-                             class="w-12 h-12 object-cover rounded-full p-0.5 border-2 border-cyan-500/40 shadow-lg shadow-cyan-500/30"
-                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-500 via-indigo-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 text-white font-black text-lg tracking-wider border-2 border-cyan-400/40\'>R2R</div>';">
+                    <div id="logoContainer" class="relative group cursor-pointer">
+                        <!-- Neon Glow Ring Effect -->
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-orange-500 via-cyan-500 to-blue-600 rounded-2xl blur opacity-70 group-hover:opacity-100 transition duration-300"></div>
+                        
+                        <!-- R² Vector Logo matching uploaded design -->
+                        <div class="relative w-12 h-12 rounded-xl overflow-hidden border-2 border-cyan-400/80 shadow-lg shadow-cyan-500/40 group-hover:scale-105 transition-transform duration-300 flex items-center justify-center bg-[#002066]">
+                            <svg viewBox="0 0 500 500" class="w-full h-full p-0.5" xmlns="http://www.w3.org/2000/svg">
+                                <rect width="500" height="500" fill="#002066"/>
+                                <!-- Top Accent Line -->
+                                <rect x="96" y="70" width="20" height="75" fill="#FFFFFF"/>
+                                <!-- Orange 'R' Outer Shape -->
+                                <path d="M 124 70 L 290 70 C 390 70 405 130 405 230 C 405 325 365 385 295 385 L 377 432 L 265 432 L 198 360 L 198 285 L 290 285 C 328 285 330 145 230 145 L 124 145 Z" fill="#FF6A00"/>
+                                <!-- White 'r' Stem & Arch -->
+                                <path d="M 136 180 C 105 180 96 198 96 225 L 96 432 L 172 432 L 172 258 L 245 258 L 245 180 Z" fill="#FFFFFF"/>
+                                <!-- White Superscript '2' -->
+                                <path d="M 258 190 L 298 190 C 304 190 308 194 308 200 C 308 212 292 222 280 234 L 280 236 L 308 236 L 308 250 L 258 250 L 258 238 C 274 222 292 212 292 205 C 292 202 290 200 285 200 L 258 200 Z" fill="#FFFFFF"/>
+                            </svg>
+                        </div>
                     </div>
                     <div>
                         <div class="flex items-center gap-2.5">
