@@ -143,14 +143,11 @@
                     </div>
                 </div>
 
-                <!-- Creator Credit & Sheet Refresh Button -->
+                <!-- Refresh Button with Icon and Text -->
                 <div class="flex items-center gap-3">
-                    <div class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gray-900/80 border border-gray-800 text-xs text-gray-300">
-                        <i class="fa-solid fa-user-gear text-cyan-400"></i>
-                        <span>พัฒนาโดย <strong class="text-white font-semibold">ชาคริต เทียนทอง</strong></span>
-                    </div>
-                    <button id="refreshDataBtn" onclick="fetchLiveData()" class="p-2.5 text-gray-400 hover:text-white bg-gray-900/90 hover:bg-gray-800 border border-gray-800 rounded-xl transition-all duration-200" title="อัปเดตข้อมูลจาก Google Sheet">
-                        <i id="refreshIcon" class="fa-solid fa-arrows-rotate"></i>
+                    <button id="refreshDataBtn" onclick="fetchLiveData()" class="px-3.5 py-2 text-gray-300 hover:text-white bg-gray-900/90 hover:bg-gray-800 border border-gray-800 rounded-xl transition-all duration-200 flex items-center gap-2 text-xs font-medium" title="อัปเดตข้อมูลจาก Google Sheet">
+                        <i id="refreshIcon" class="fa-solid fa-arrows-rotate text-cyan-400"></i>
+                        <span>รีเฟรช</span>
                     </button>
                 </div>
             </div>
@@ -241,7 +238,7 @@
             <div class="flex flex-wrap items-center justify-center gap-2 font-medium text-gray-300">
                 <span class="text-cyan-400 font-semibold">R2R Digital Support</span>
                 <span>•</span>
-                <span>พัฒนาโดย <strong class="text-white font-semibold">ชาคริต เทียนทอง</strong> <span class="font-light text-gray-400">นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span></span>
+                <span>พัฒนาโดย <span class="text-white font-light">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span></span>
             </div>
             <p class="text-gray-500 max-w-md mx-auto">
                 ระบบคลังเรียนรู้เพื่อสนับสนุนการพัฒนางานประจำสู่งานวิจัย
@@ -252,6 +249,7 @@
         </div>
     </footer>
 
+    <!-- Video Modal -->
     <div id="videoModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/85 backdrop-blur-md transition-opacity">
         <div class="glass-panel w-full max-w-4xl rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh] border border-gray-700">
             <!-- Modal Header -->
@@ -279,7 +277,6 @@
                 <div class="flex items-center gap-4 text-gray-300">
                     <span class="flex items-center gap-1.5"><i class="fa-regular fa-clock text-gray-400"></i> <span id="modalDuration">-</span></span>
                     <span class="flex items-center gap-1.5"><i class="fa-regular fa-calendar text-gray-400"></i> <span id="modalDate">-</span></span>
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-pen text-cyan-400"></i> <span id="modalCreator">ชาคริต เทียนทอง</span></span>
                 </div>
                 <div class="flex items-center gap-2">
                     <a id="modalYouTubeBtn" href="#" target="_blank" class="px-3.5 py-1.5 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-500/30 rounded-xl transition-all flex items-center gap-1.5 font-medium">
@@ -293,6 +290,7 @@
         </div>
     </div>
 
+    <!-- LINE Support Floating Button -->
     <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2">
         <button onclick="handleLineButtonClick()" class="group line-pulse relative bg-line-green hover:bg-line-dark text-white rounded-full w-14 h-14 shadow-2xl transition-all duration-300 flex items-center justify-center hover:scale-110 active:scale-95 border border-emerald-400/30" title="ปรึกษา LINE Support" aria-label="ปรึกษา LINE Support">
             <i class="fa-brands fa-line text-3xl"></i>
@@ -344,6 +342,8 @@
         const GOOGLE_SHEET_ID = "10M6I1peztnZ6lht3DrxuL3NnCyFDmNmEkIBW0n_Orog";
         const CSV_URL = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&id=${GOOGLE_SHEET_ID}&gid=0`;
 
+        const DEFAULT_CREATOR_NAME = "ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ";
+
         // Pagination & Sorting Config
         const ITEMS_PER_PAGE = 9;
         let currentPage = 1;
@@ -351,25 +351,25 @@
 
         // Fallback Dataset
         const fallbackVideos = [
-            { id: "R2R-019", title: "EP5: ศึกชิงไหวชิงพริบ มนุษย์ปะทะสมองกล", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/WoO5JHLE1U0", videoId: "WoO5JHLE1U0", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1_sPjkXjtllBEKeCH3oTGTZ1t56J_19N/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1_sPjkXjtllBEKeCH3oTGTZ1t56J_19N", duration: "04:03", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-018", title: "EP4: เจาะกำแพงพรางตาที่ซ่อนเร้นของสมองกล", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/JbcrnvpV0DQ", videoId: "JbcrnvpV0DQ", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1CXXPsHDuQ0QGwJp8aTWpzZ1Bdl6rnPcg/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1CXXPsHDuQ0QGwJp8aTWpzZ1Bdl6rnPcg", duration: "03:51", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-017", title: "EP3: ศึกวิเคราะห์สัญญาณสัตว์ร้ายมหาประภัย", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/bj5Ewv64zg4", videoId: "bj5Ewv64zg4", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1VmT-YJ0O_slR5gZUVh1n1KLMeY4sUApU/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1VmT-YJ0O_slR5gZUVh1n1KLMeY4sUApU", duration: "05:16", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-016", title: "EP2: ปลูกถ่ายความทรงจำอัจฉริยะฉบับพี่ช้าง", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/jEUVBavTnQM", videoId: "jEUVBavTnQM", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1nDHsTPRXY0v518q-oiey619g_Ifx5SCa/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1nDHsTPRXY0v518q-oiey619g_Ifx5SCa", duration: "02:40", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-015", title: "EP1: ตอนกำเนิดสมองกล Teachable Machine", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/sWGqmM-FmzIg", videoId: "sWGqmM-FmzIg", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1gziTTCf47lIXS8Iha3lx5nOpfeZIY5D5/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1gziTTCf47lIXS8Iha3lx5nOpfeZIY5D5", duration: "01:23", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-014", title: "EP5: ถอดรหัสสื่อสารโลกด้วย AI Translate", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/2tcFsXCIXYU", videoId: "2tcFsXCIXYU", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1TyaehYxzfU-qqTflyFWWGKOd4CFyQYfO/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1TyaehYxzfU-qqTflyFWWGKOd4CFyQYfO", duration: "01:29", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-013", title: "EP4: พลิกโฉมเทมเพลตด้วย Magic Design", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/e_UPMbpsf9Q", videoId: "e_UPMbpsf9Q", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1Y_IANVe9NqhXqrfUZVfGY2FTw6YTGq4A/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1Y_IANVe9NqhXqrfUZVfGY2FTw6YTGq4A", duration: "03:23", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-012", title: "EP3: เสกจินตนาการผ่าน Text to Image", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/O4XJhz6_t1s", videoId: "O4XJhz6_t1s", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/13u1mO7KTQXWe3oHJIDAKsjuaA9gue8U/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/13u1mO7KTQXWe3oHJIDAKsjuaA9gue8U", duration: "02:26", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-011", title: "EP2: เนรมิตอักขระอัจฉริยะ Magic Write", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/cwHQFRzQE1I", videoId: "cwHQFRzQE1I", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1rguLFDwUf-eY8vjmj3QYvaRNkW-HadR_/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1rguLFDwUf-eY8vjmj3QYvaRNkW-HadR_", duration: "01:44", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-010", title: "EP1: กำเนิดดีไซเนอร์สมองกล Canva AI", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/NUaJZoy97Ws", videoId: "NUaJZoy97Ws", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1Aok6HQDl_sDarXX2by5iCBpUxBzCDCIH/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1Aok6HQDl_sDarXX2by5iCBpUxBzCDCIH", duration: "01:29", date: "4 Feb 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-009", title: "EP9: นิยามศัพท์เฉพาะ...เคล็ดลับ 'ล็อก' ความเข้าใจ ให้งานจบสวย", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/Blp3oX_2H0o", videoId: "Blp3oX_2H0o", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1AA566-zXJ68NJT3PogiBB-4Dv68UVWx3/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1AA566-zXJ68NJT3PogiBB-4Dv68UVWx3", duration: "01:26", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-008", title: "EP8: ขอบเขตชัดเจน... เซฟงาน เซฟใจ ไม่ให้หลงทาง", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/TzUqzg1dRxk", videoId: "TzUqzg1dRxk", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1_FzqtT12K5sPS-EaEaZHVO3jkDoOjvdBm/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1_FzqtT12K5sPS-EaEaZHVO3jkDoOjvdBm", duration: "01:26", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-007", title: "EP7: การส่งต่อคุณค่าและการนำไปใช้จริง", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/Ku5vRas3FCU", videoId: "Ku5vRas3FCU", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1B1XezxmFR35Cw9MFH17-hLL-T557Fvg6/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1B1XezxmFR35Cw9MFH17-hLL-T557Fvg6", duration: "01:05", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-006", title: "EP6: เส้นทางข้อมูล...จากแผนงานสู่ความสำเร็จ", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/QJM08VrsJQA", videoId: "QJM08VrsJQA", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1ix3-80OTbdMET3F2AvLaswmRIOJZuWOe/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1ix3-80OTbdMET3F2AvLaswmRIOJZuWOe", duration: "01:51", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-005", title: "EP5: ประชากรที่ไม่ใช่คน...แต่มันคือข้อมูลการให้บริการ!", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/txiPjKvqndQ", videoId: "txiPjKvqndQ", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/14WAkN9JOrzztQ1AspkgxWv3kjVG32nZl/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/14WAkN9JOrzztQ1AspkgxWv3kjVG32nZl", duration: "02:09", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-004", title: "EP4: ปักหมุดเป้าหมาย...วิเคราะห์ให้ตรงจุด", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/EUoLMURnVm4", videoId: "EUoLMURnVm4", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1Q7zuToNnejcP5-ZlgpOvXLScPU6LR8/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1Q7zuToNnejcP5-ZlgpOvXLScPU6LR8", duration: "01:59", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-003", title: "EP3: พลิกโลกรูทีน สู่คลังข้อมูลอัจฉริยะ", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/tZY8-i1qCT8", videoId: "tZY8-i1qCT8", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1SLPmy7JarvyNT1TqYFEam_HDqE7-Uyry/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1SLPmy7JarvyNT1TqYFEam_HDqE7-Uyry", duration: "01:11", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-002", title: "EP2: พลิกโลกรูทีน สู่มิตินักวิเคราะห์มือโปร", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/sVtKDcGnSQo", videoId: "sVtKDcGnSQo", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1ewlTpOClFRqKFFA_igBFcOuAL6Jdu6Vb/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1ewlTpOClFRqKFFA_igBFcOuAL6Jdu6Vb", duration: "01:04", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" },
-            { id: "R2R-001", title: "EP1: Road Map โครงสร้างงานวิเคราะห์", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/CcCorFns9gY", videoId: "CcCorFns9gY", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1rgxcaWwScPSOzqMvR-AtpMNRS14Kic5Q/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1rgxcaWwScPSOzqMvR-AtpMNRS14Kic5Q", duration: "01:20", date: "8 Aug 2026", creator: "ชาคริต เทียนทอง" }
+            { id: "R2R-019", title: "EP5: ศึกชิงไหวชิงพริบ มนุษย์ปะทะสมองกล", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/WoO5JHLE1U0", videoId: "WoO5JHLE1U0", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1_sPjkXjtllBEKeCH3oTGTZ1t56J_19N/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1_sPjkXjtllBEKeCH3oTGTZ1t56J_19N", duration: "04:03", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-018", title: "EP4: เจาะกำแพงพรางตาที่ซ่อนเร้นของสมองกล", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/JbcrnvpV0DQ", videoId: "JbcrnvpV0DQ", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1CXXPsHDuQ0QGwJp8aTWpzZ1Bdl6rnPcg/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1CXXPsHDuQ0QGwJp8aTWpzZ1Bdl6rnPcg", duration: "03:51", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-017", title: "EP3: ศึกวิเคราะห์สัญญาณสัตว์ร้ายมหาประภัย", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/bj5Ewv64zg4", videoId: "bj5Ewv64zg4", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1VmT-YJ0O_slR5gZUVh1n1KLMeY4sUApU/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1VmT-YJ0O_slR5gZUVh1n1KLMeY4sUApU", duration: "05:16", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-016", title: "EP2: ปลูกถ่ายความทรงจำอัจฉริยะฉบับพี่ช้าง", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/jEUVBavTnQM", videoId: "jEUVBavTnQM", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1nDHsTPRXY0v518q-oiey619g_Ifx5SCa/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1nDHsTPRXY0v518q-oiey619g_Ifx5SCa", duration: "02:40", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-015", title: "EP1: ตอนกำเนิดสมองกล Teachable Machine", category: "สื่อการสอน", tag: "Teachable Machine", youtubeUrl: "https://youtu.be/sWGqmM-FmzIg", videoId: "sWGqmM-FmzIg", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XELel1p0YTNJxpZTjPgYH3RYH", driveUrl: "https://drive.google.com/file/d/1gziTTCf47lIXS8Iha3lx5nOpfeZIY5D5/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1gziTTCf47lIXS8Iha3lx5nOpfeZIY5D5", duration: "01:23", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-014", title: "EP5: ถอดรหัสสื่อสารโลกด้วย AI Translate", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/2tcFsXCIXYU", videoId: "2tcFsXCIXYU", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1TyaehYxzfU-qqTflyFWWGKOd4CFyQYfO/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1TyaehYxzfU-qqTflyFWWGKOd4CFyQYfO", duration: "01:29", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-013", title: "EP4: พลิกโฉมเทมเพลตด้วย Magic Design", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/e_UPMbpsf9Q", videoId: "e_UPMbpsf9Q", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1Y_IANVe9NqhXqrfUZVfGY2FTw6YTGq4A/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1Y_IANVe9NqhXqrfUZVfGY2FTw6YTGq4A", duration: "03:23", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-012", title: "EP3: เสกจินตนาการผ่าน Text to Image", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/O4XJhz6_t1s", videoId: "O4XJhz6_t1s", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/13u1mO7KTQXWe3oHJIDAKsjuaA9gue8U/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/13u1mO7KTQXWe3oHJIDAKsjuaA9gue8U", duration: "02:26", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-011", title: "EP2: เนรมิตอักขระอัจฉริยะ Magic Write", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/cwHQFRzQE1I", videoId: "cwHQFRzQE1I", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1rguLFDwUf-eY8vjmj3QYvaRNkW-HadR_/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1rguLFDwUf-eY8vjmj3QYvaRNkW-HadR_", duration: "01:44", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-010", title: "EP1: กำเนิดดีไซเนอร์สมองกล Canva AI", category: "สื่อการสอน", tag: "Canva", youtubeUrl: "https://youtu.be/NUaJZoy97Ws", videoId: "NUaJZoy97Ws", playlistUrl: "https://www.youtube.com/playlist?list=PLIWoNaD8XElt1iVWnCNhhwZTf-srSnlf", driveUrl: "https://drive.google.com/file/d/1Aok6HQDl_sDarXX2by5iCBpUxBzCDCIH/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1Aok6HQDl_sDarXX2by5iCBpUxBzCDCIH", duration: "01:29", date: "4 Feb 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-009", title: "EP9: นิยามศัพท์เฉพาะ...เคล็ดลับ 'ล็อก' ความเข้าใจ ให้งานจบสวย", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/Blp3oX_2H0o", videoId: "Blp3oX_2H0o", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1AA566-zXJ68NJT3PogiBB-4Dv68UVWx3/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1AA566-zXJ68NJT3PogiBB-4Dv68UVWx3", duration: "01:26", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-008", title: "EP8: ขอบเขตชัดเจน... เซฟงาน เซฟใจ ไม่ให้หลงทาง", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/TzUqzg1dRxk", videoId: "TzUqzg1dRxk", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1_FzqtT12K5sPS-EaEaZHVO3jkDoOjvdBm/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1_FzqtT12K5sPS-EaEaZHVO3jkDoOjvdBm", duration: "01:26", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-007", title: "EP7: การส่งต่อคุณค่าและการนำไปใช้จริง", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/Ku5vRas3FCU", videoId: "Ku5vRas3FCU", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1B1XezxmFR35Cw9MFH17-hLL-T557Fvg6/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1B1XezxmFR35Cw9MFH17-hLL-T557Fvg6", duration: "01:05", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-006", title: "EP6: เส้นทางข้อมูล...จากแผนงานสู่ความสำเร็จ", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/QJM08VrsJQA", videoId: "QJM08VrsJQA", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1ix3-80OTbdMET3F2AvLaswmRIOJZuWOe/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1ix3-80OTbdMET3F2AvLaswmRIOJZuWOe", duration: "01:51", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-005", title: "EP5: ประชากรที่ไม่ใช่คน...แต่มันคือข้อมูลการให้บริการ!", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/txiPjKvqndQ", videoId: "txiPjKvqndQ", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/14WAkN9JOrzztQ1AspkgxWv3kjVG32nZl/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/14WAkN9JOrzztQ1AspkgxWv3kjVG32nZl", duration: "02:09", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-004", title: "EP4: ปักหมุดเป้าหมาย...วิเคราะห์ให้ตรงจุด", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/EUoLMURnVm4", videoId: "EUoLMURnVm4", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1Q7zuToNnejcP5-ZlgpOvXLScPU6LR8/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1Q7zuToNnejcP5-ZlgpOvXLScPU6LR8", duration: "01:59", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-003", title: "EP3: พลิกโลกรูทีน สู่คลังข้อมูลอัจฉริยะ", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/tZY8-i1qCT8", videoId: "tZY8-i1qCT8", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1SLPmy7JarvyNT1TqYFEam_HDqE7-Uyry/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1SLPmy7JarvyNT1TqYFEam_HDqE7-Uyry", duration: "01:11", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-002", title: "EP2: พลิกโลกรูทีน สู่มิตินักวิเคราะห์มือโปร", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/sVtKDcGnSQo", videoId: "sVtKDcGnSQo", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1ewlTpOClFRqKFFA_igBFcOuAL6Jdu6Vb/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1ewlTpOClFRqKFFA_igBFcOuAL6Jdu6Vb", duration: "01:04", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME },
+            { id: "R2R-001", title: "EP1: Road Map โครงสร้างงานวิเคราะห์", category: "งานวิเคราะห์", tag: "Unit 1", youtubeUrl: "https://youtu.be/CcCorFns9gY", videoId: "CcCorFns9gY", playlistUrl: "https://youtube.com/playlist?list=PLalxO2lT3voc&si=n5gzKd9KztUda61E", driveUrl: "https://drive.google.com/file/d/1rgxcaWwScPSOzqMvR-AtpMNRS14Kic5Q/view?usp=drive_link", imageUrl: "https://lh3.googleusercontent.com/d/1rgxcaWwScPSOzqMvR-AtpMNRS14Kic5Q", duration: "01:20", date: "8 Aug 2026", creator: DEFAULT_CREATOR_NAME }
         ];
 
         let allVideos = [...fallbackVideos];
@@ -417,6 +417,11 @@
                                     rawImageUrl = `https://img.youtube.com/vi/${rawVideoId}/hqdefault.jpg`;
                                 }
 
+                                let rawCreator = row['Creator'] || '';
+                                if (!rawCreator || rawCreator.trim() === 'ชาคริต เทียนทอง') {
+                                    rawCreator = DEFAULT_CREATOR_NAME;
+                                }
+
                                 return {
                                     id: row['ID'] || `R2R-${String(index+1).padStart(3, '0')}`,
                                     title: row['Title'] || row['ชื่อวิดีโอ'] || 'วิดีโอไม่มีชื่อ',
@@ -429,13 +434,13 @@
                                     imageUrl: rawImageUrl.trim(),
                                     duration: row['Duration'] || '00:00',
                                     date: row['Publish_Date'] || row['Date'] || '2026',
-                                    creator: row['Creator'] || 'ชาคริต เทียนทอง'
+                                    creator: rawCreator
                                 };
                             });
 
                             if (parsed.length > 0) {
                                 allVideos = parsed;
-                                showToast("อัปเดตข้อมูลสดเรียบร้อยแล้ว");
+                                showToast("อัปเดตข้อมูลเรียบร้อยแล้ว");
                                 initApp();
                             }
                         } catch (err) {
@@ -560,12 +565,13 @@
         function renderVideoCards(videos) {
             videoGrid.innerHTML = videos.map(video => {
                 const fallbackThumb = `https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`;
+                const displayCreator = video.creator || DEFAULT_CREATOR_NAME;
                 
                 return `
                 <div class="glass-card rounded-2xl overflow-hidden group flex flex-col justify-between">
                     <div>
                         <!-- Thumbnail Frame -->
-                        <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-950 cursor-pointer" onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(video.creator)}', '${video.youtubeUrl}', '${video.playlistUrl}')">
+                        <div class="relative w-full pt-[56.25%] overflow-hidden bg-gray-950 cursor-pointer" onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(displayCreator)}', '${video.youtubeUrl}', '${video.playlistUrl}')">
                             <img src="${video.imageUrl}" 
                                  onerror="this.onerror=null; this.src='${fallbackThumb}';" 
                                  alt="${escapeHtml(video.title)}" 
@@ -581,12 +587,12 @@
                                 </div>
                             </div>
 
-                            <!-- Duration Badge (Moved to Bottom-Left) -->
+                            <!-- Duration Badge -->
                             <div class="absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-sm border border-gray-700/80 text-[11px] font-mono text-gray-200 flex items-center gap-1 z-10">
                                 <i class="fa-regular fa-clock text-cyan-400"></i> ${video.duration}
                             </div>
 
-                            <!-- Category Badge (Moved to Top-Right) -->
+                            <!-- Category Badge -->
                             <div class="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-md bg-gray-900/90 backdrop-blur-sm border border-gray-700 text-cyan-400 text-[10px] font-semibold z-10">
                                 ${escapeHtml(video.category)}
                             </div>
@@ -603,7 +609,7 @@
                             </div>
 
                             <!-- Video Title -->
-                            <h3 onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(video.creator)}', '${video.youtubeUrl}', '${video.playlistUrl}')" 
+                            <h3 onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(displayCreator)}', '${video.youtubeUrl}', '${video.playlistUrl}')" 
                                 class="text-sm font-semibold text-white group-hover:text-cyan-300 transition-colors line-clamp-2 cursor-pointer leading-snug">
                                 ${escapeHtml(video.title)}
                             </h3>
@@ -614,9 +620,9 @@
                     <div class="px-4 pb-4 pt-3 border-t border-gray-800/80 flex items-center justify-between text-xs text-gray-400">
                         <div class="flex items-center gap-1.5 text-[11px]">
                             <i class="fa-solid fa-user-circle text-gray-500"></i>
-                            <span class="truncate max-w-[120px] text-gray-400">${escapeHtml(video.creator)}</span>
+                            <span class="truncate max-w-[120px] text-gray-400">ชาคริต เทียนทอง</span>
                         </div>
-                        <button onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(video.creator)}', '${video.youtubeUrl}', '${video.playlistUrl}')" 
+                        <button onclick="openVideoModal('${video.videoId}', '${escapeHtml(video.title)}', '${escapeHtml(video.category)}', '${video.duration}', '${video.date}', '${escapeHtml(displayCreator)}', '${video.youtubeUrl}', '${video.playlistUrl}')" 
                             class="px-3.5 py-1.5 rounded-xl bg-gray-900 hover:bg-cyan-600/20 text-cyan-400 hover:text-cyan-300 border border-cyan-500/30 transition-all text-xs font-semibold flex items-center gap-1.5">
                             <i class="fa-solid fa-circle-play"></i> รับชม
                         </button>
@@ -685,7 +691,7 @@
             document.getElementById('modalCategory').innerText = category;
             document.getElementById('modalDuration').innerText = duration;
             document.getElementById('modalDate').innerText = date;
-            document.getElementById('modalCreator').innerText = creator;
+            
             document.getElementById('modalYouTubeBtn').href = youtubeUrl;
             document.getElementById('modalPlaylistBtn').href = playlistUrl || '#';
             
