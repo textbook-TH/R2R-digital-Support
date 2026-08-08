@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R2R Digital Support - คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย</title>
+    <title>R2R Digital Support - คลังเรียนรู้เพื่อพัฒนางานประจำสู่งานวิจัย</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -152,7 +152,7 @@
                                 R2R <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-blue-400">Digital Support</span>
                             </h1>
                         </div>
-                        <p class="text-xs text-gray-400">คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย</p>
+                        <p class="text-xs text-gray-400">คลังเรียนรู้เพื่อพัฒนางานประจำสู่งานวิจัย</p>
                     </div>
                 </div>
 
@@ -212,8 +212,6 @@
             <div class="flex flex-wrap items-center justify-between gap-2 text-xs sm:text-sm text-gray-400 px-1">
                 <div class="flex items-center gap-2">
                     <span>พบวิดีโอ <span id="resultCount" class="font-bold text-cyan-400 text-base">0</span> รายการ</span>
-                    <span class="text-gray-600">•</span>
-                    <span id="pageRangeInfo" class="text-gray-400">แสดง 0-0</span>
                 </div>
                 <button onclick="resetAllFilters()" class="text-cyan-400 hover:text-cyan-300 font-medium underline transition-colors flex items-center gap-1">
                     <i class="fa-solid fa-rotate-left text-xs"></i> ล้างตัวกรองทั้งหมด
@@ -251,13 +249,13 @@
             <div class="flex flex-wrap items-center justify-center gap-2 text-gray-300">
                 <span class="text-cyan-400 font-bold">R2R Digital Support</span>
                 <span>•</span>
-                <!-- "พัฒนาโดย" and Developer Name in Bold -->
-                <span class="font-bold text-gray-200">
-                    พัฒนาโดย <span class="text-white font-bold">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span>
+                <!-- "พัฒนาโดย" and Developer Name in Light Weight -->
+                <span class="font-light text-gray-300">
+                    พัฒนาโดย <span class="text-gray-300 font-light">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span>
                 </span>
             </div>
             <p class="text-gray-500 max-w-md mx-auto">
-                คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย
+                คลังเรียนรู้เพื่อพัฒนางานประจำสู่งานวิจัย
             </p>
             <div class="pt-2 text-gray-600">
                 &copy; 2026 R2R Digital Support. All rights reserved.
@@ -407,7 +405,6 @@
         const categorySelect = document.getElementById('categorySelect');
         const tagSelect = document.getElementById('tagSelect');
         const resultCount = document.getElementById('resultCount');
-        const pageRangeInfo = document.getElementById('pageRangeInfo');
         const paginationContainer = document.getElementById('paginationContainer');
         const paginationButtons = document.getElementById('paginationButtons');
 
@@ -567,7 +564,6 @@
                 videoGrid.innerHTML = '';
                 emptyState.classList.remove('hidden');
                 paginationContainer.classList.add('hidden');
-                pageRangeInfo.innerText = 'แสดง 0 รายการ';
                 return;
             }
 
@@ -581,8 +577,6 @@
             const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
             const currentSlice = filteredVideos.slice(startIndex, endIndex);
 
-            pageRangeInfo.innerText = `แสดง ${startIndex + 1}-${endIndex} จาก ${totalItems} รายการ`;
-            
             renderVideoCards(currentSlice);
             renderPaginationControls(totalPages);
         }
