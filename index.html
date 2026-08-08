@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R2R Digital Support - คลังเรียนรู้และสื่อวิดีโอพัฒนางานประจำสู่งานวิจัย</title>
+    <title>R2R Digital Support - เราจะเปลี่ยน R2R ที่ทุกคนคิดว่ายากให้กลายเป็น“เรื่องง่าย”</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -139,7 +139,7 @@
                                 <i class="fa-solid fa-sparkles text-[10px] mr-1"></i> Catalog Portal
                             </span>
                         </div>
-                        <p class="text-xs text-gray-400">คลังเรียนรู้และสื่อวิดีโอพัฒนางานประจำสู่งานวิจัย</p>
+                        <p class="text-xs text-gray-400">เราจะเปลี่ยน R2R ที่ทุกคนคิดว่ายากให้กลายเป็น“เรื่องง่าย”</p>
                     </div>
                 </div>
 
@@ -147,7 +147,7 @@
                 <div class="flex items-center gap-3">
                     <div class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gray-900/80 border border-gray-800 text-xs text-gray-300">
                         <i class="fa-solid fa-user-gear text-cyan-400"></i>
-                        <span>จัดทำโดย: <strong class="text-white font-semibold">ชาคริต เทียนทอง</strong></span>
+                        <span>พัฒนาโดย <strong class="text-white font-semibold">ชาคริต เทียนทอง</strong></span>
                     </div>
                     <button id="refreshDataBtn" onclick="fetchLiveData()" class="p-2.5 text-gray-400 hover:text-white bg-gray-900/90 hover:bg-gray-800 border border-gray-800 rounded-xl transition-all duration-200" title="อัปเดตข้อมูลจาก Google Sheet">
                         <i id="refreshIcon" class="fa-solid fa-arrows-rotate"></i>
@@ -216,11 +216,8 @@
             </div>
 
             <!-- Pagination Container -->
-            <div id="paginationContainer" class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-gray-800/80">
-                <div id="paginationSummary" class="text-xs text-gray-400">
-                    หน้า 1 จาก 1
-                </div>
-                <div id="paginationButtons" class="flex items-center gap-1.5 flex-wrap">
+            <div id="paginationContainer" class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 border-t border-gray-800/80">
+                <div id="paginationButtons" class="flex items-center gap-1.5 flex-wrap justify-center">
                     <!-- Page buttons generated via JS -->
                 </div>
             </div>
@@ -244,10 +241,10 @@
             <div class="flex items-center justify-center gap-2 font-medium text-gray-300">
                 <span class="text-cyan-400 font-semibold">R2R Digital Support</span>
                 <span>•</span>
-                <span>พัฒนาและจัดทำโดย <strong class="text-white">ชาคริต เทียนทอง</strong></span>
+                <span>พัฒนาโดย <strong class="text-white">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</strong></span>
             </div>
             <p class="text-gray-500 max-w-md mx-auto">
-                ระบบคลังเรียนรู้สื่อวิดีโอเพื่อสนับสนุนการพัฒนางานวิจัยและนวัตกรรมในงานประจำ
+                ระบบคลังเรียนรู้เพื่อสนับสนุนการพัฒนางานประจำสู่งานวิจัย
             </p>
             <div class="pt-2 text-gray-600">
                 &copy; 2026 R2R Digital Support. All rights reserved.
@@ -389,7 +386,6 @@
         const resultCount = document.getElementById('resultCount');
         const pageRangeInfo = document.getElementById('pageRangeInfo');
         const paginationContainer = document.getElementById('paginationContainer');
-        const paginationSummary = document.getElementById('paginationSummary');
         const paginationButtons = document.getElementById('paginationButtons');
 
         function fetchLiveData() {
@@ -499,8 +495,7 @@
                 return matchesCategory && matchesTag && matchesSearch;
             });
 
-            // การเรียงลำดับ:
-            // เมื่อมีการเลือก "หมวดหมู่" หรือ "แท็กเนื้อหา" ให้เรียงลำดับจาก น้อย ไปหา มาก (เช่น R2R-001, R2R-002, R2R-011, R2R-012, R2R-013)
+            // Sorting logic
             const isFilterSelected = selectedCategory !== "ALL" || selectedTag !== "ALL";
 
             filteredVideos.sort((a, b) => {
@@ -508,13 +503,13 @@
                 const numB = parseInt((b.id || '').replace(/\D/g, ''), 10);
                 
                 if (isFilterSelected) {
-                    // เรียงจากน้อยไปหามาก (Ascending: R2R-001 -> R2R-019)
+                    // Ascending (R2R-001 -> R2R-019)
                     if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
                         return numA - numB;
                     }
                     return (a.id || '').localeCompare(b.id || '', undefined, { numeric: true, sensitivity: 'base' });
                 } else {
-                    // กรณีดูทั้งหมด (ALL) ให้เรียงจากมากไปหาน้อย (Descending) เพื่อโชว์คลิปใหม่ก่อน
+                    // Descending when showing all
                     if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
                         return numB - numA;
                     }
@@ -634,8 +629,6 @@
         }
 
         function renderPaginationControls(totalPages) {
-            paginationSummary.innerText = `หน้า ${currentPage} จากทั้งหมด ${totalPages} หน้า (แสดงหน้าละ ${ITEMS_PER_PAGE} คลิป)`;
-            
             let buttonsHtml = '';
 
             // Previous Button
