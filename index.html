@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R2R Digital Support - ระบบคลังเรียนรู้เพื่อสนับสนุนการพัฒนางานประจำสู่งานวิจัย</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="r2r_2.png">
+    <title>R2R Digital Support - คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -130,19 +127,19 @@
             <div class="flex items-center justify-between h-20">
                 <!-- Brand Logo & Title -->
                 <div class="flex items-center gap-3.5">
-                    <div class="w-11 h-11 rounded-2xl overflow-hidden shadow-lg shadow-cyan-500/20 border border-cyan-500/30 flex-shrink-0 bg-blue-900/50">
-                        <img src="r2r_2.png" alt="R2R Logo" class="w-full h-full object-cover">
+                    <div id="logoContainer" class="relative">
+                        <img src="https://lh3.googleusercontent.com/d/1TUDaM3Xxo2FKijGV0cwfW-A0xEUfSuAp" 
+                             alt="R2R Digital Support Logo" 
+                             class="w-12 h-12 object-contain rounded-xl shadow-lg shadow-cyan-500/20"
+                             onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-indigo-600 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-white font-black text-xl tracking-wider\'>R2R</div>';">
                     </div>
                     <div>
                         <div class="flex items-center gap-2.5">
                             <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight">
                                 R2R <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-blue-400">Digital Support</span>
                             </h1>
-                            <span class="hidden sm:inline-flex items-center px-2.5 py-0.5 text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full">
-                                <i class="fa-solid fa-sparkles text-[10px] mr-1"></i> Catalog Portal
-                            </span>
                         </div>
-                        <p class="text-xs text-gray-400">ระบบคลังเรียนรู้เพื่อสนับสนุนการพัฒนางานประจำสู่งานวิจัย</p>
+                        <p class="text-xs text-gray-400">คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย</p>
                     </div>
                 </div>
 
@@ -210,7 +207,7 @@
                 </button>
             </div>
 
-            <!-- Video Cards Grid -->
+            <!-- Video Cards Grid: 1 Col on Mobile (6 items), 2 Cols on iPad (4 rows = 8 items), 3 Cols on PC (3 rows = 9 items) -->
             <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Dynamic cards populated via JavaScript -->
             </div>
@@ -239,13 +236,12 @@
     <footer class="bg-gray-950/90 border-t border-gray-800/80 py-8 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-xs space-y-3">
             <div class="flex flex-wrap items-center justify-center gap-2 font-medium text-gray-300">
-                <img src="r2r_2.png" alt="R2R Logo" class="w-5 h-5 rounded object-cover">
                 <span class="text-cyan-400 font-semibold">R2R Digital Support</span>
                 <span>•</span>
                 <span>พัฒนาโดย <span class="text-white font-light">ชาคริต เทียนทอง นักวิชาการโสตทัศนศึกษา ระดับ เชี่ยวชาญ</span></span>
             </div>
             <p class="text-gray-500 max-w-md mx-auto">
-                ระบบคลังเรียนรู้เพื่อสนับสนุนการพัฒนางานประจำสู่งานวิจัย
+                คลังเรียนรู้เพื่อการพัฒนางานประจำสู่งานวิจัย
             </p>
             <div class="pt-2 text-gray-600">
                 &copy; 2026 R2R Digital Support. All rights reserved.
@@ -351,13 +347,17 @@
         let currentPage = 1;
         let filteredVideos = [];
 
+        // Dynamic items per page helper function according to device design requirement
         function getItemsPerPage() {
             const width = window.innerWidth;
             if (width < 768) {
+                // Mobile: Show exactly 6 clips per page for all categories
                 return 6;
             } else if (width < 1024) {
+                // iPad / Tablet (md:grid-cols-2): Show 4 rows = 4 rows * 2 columns = 8 clips per page
                 return 8;
             } else {
+                // PC / Desktop (lg:grid-cols-3): Show 3 rows = 3 rows * 3 columns = 9 clips per page
                 return 9;
             }
         }
@@ -496,6 +496,7 @@
             const selectedTag = tagSelect.value;
             const searchQuery = searchInput.value.toLowerCase().trim();
 
+            // Filter videos based on category, tag & search query
             filteredVideos = allVideos.filter(video => {
                 const matchesCategory = selectedCategory === "ALL" || video.category === selectedCategory;
                 const matchesTag = selectedTag === "ALL" || video.tag === selectedTag;
@@ -510,6 +511,7 @@
                 return matchesCategory && matchesTag && matchesSearch;
             });
 
+            // Sorting logic
             const isFilterSelected = selectedCategory !== "ALL" || selectedTag !== "ALL";
 
             filteredVideos.sort((a, b) => {
@@ -517,11 +519,13 @@
                 const numB = parseInt((b.id || '').replace(/\D/g, ''), 10);
                 
                 if (isFilterSelected) {
+                    // Ascending (R2R-001 -> R2R-019)
                     if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
                         return numA - numB;
                     }
                     return (a.id || '').localeCompare(b.id || '', undefined, { numeric: true, sensitivity: 'base' });
                 } else {
+                    // Descending when showing all
                     if (!isNaN(numA) && !isNaN(numB) && numA !== numB) {
                         return numB - numA;
                     }
@@ -646,12 +650,14 @@
         function renderPaginationControls(totalPages) {
             let buttonsHtml = '';
 
+            // Previous Button
             buttonsHtml += `
                 <button onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled class="opacity-40 cursor-not-allowed px-3 py-1.5 rounded-xl bg-gray-900 border border-gray-800 text-gray-500 text-xs"' : 'class="px-3 py-1.5 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 hover:text-white text-xs transition-colors"'}>
                     <i class="fa-solid fa-chevron-left"></i> ย้อนกลับ
                 </button>
             `;
 
+            // Numeric Page Buttons
             for (let i = 1; i <= totalPages; i++) {
                 if (i === currentPage) {
                     buttonsHtml += `
@@ -668,6 +674,7 @@
                 }
             }
 
+            // Next Button
             buttonsHtml += `
                 <button onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled class="opacity-40 cursor-not-allowed px-3 py-1.5 rounded-xl bg-gray-900 border border-gray-800 text-gray-500 text-xs"' : 'class="px-3 py-1.5 rounded-xl bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 hover:text-white text-xs transition-colors"'}>
                     ถัดไป <i class="fa-solid fa-chevron-right"></i>
@@ -767,6 +774,7 @@
             return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
         }
 
+        // Window resize debounced handler to dynamically re-calculate pagination count on device switch
         let resizeTimer;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
